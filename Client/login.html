@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login - AILearn</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <!-- Custom styles -->
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            /* Bootstrap default background color */
+        }
+
+        .login-container {
+            max-width: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <!-- Heading -->
+        <h1 class="text-center mb-4">AILearn</h1>
+
+        <!-- Login Form -->
+        <form onsubmit="handleLogin(event)">
+            <!-- Email Field -->
+            <div class="mb-3">
+                <label for="inputEmail" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="inputEmail" placeholder="Your email">
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-3">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="inputPassword" placeholder="Your password">
+            </div>
+
+            <!-- Login Button -->
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js CDN (required for Bootstrap functionality) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault()
+            const BACKEND_SERVICE = "http://localhost:8080"
+            // Get input values
+            const email = document.getElementById('inputEmail').value;
+            const password = document.getElementById('inputPassword').value;
+
+            // Make a request to the backend service
+            fetch(`${BACKEND_SERVICE}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Check if login was successful (modify the condition based on your backend response)
+                    if (data.success) {
+                        // Redirect to the home page or perform any other actions
+                        window.location.href = `home.html`;
+                    } else {
+                        // Handle failed login (display an error message, etc.)
+                        alert('Login failed. Please check your credentials.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Handle other errors if necessary
+                });
+        }
+    </script>
+</body>
+
+</html>
